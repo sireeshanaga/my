@@ -2,10 +2,14 @@ FROM alpine:3.5
 
 # Install python and pip
 RUN apk add --update py2-pip
+RUN apt update
+RUN apt install apache2 -y
 
 # install Python modules needed by the Python app
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+
+ENTRYPOINT apachectl -D FOREGROUND
 
 # copy files required for the app to run
 COPY app.py /usr/src/app/
